@@ -36,20 +36,50 @@ export default function GlobeScene() {
     globe.onGlobeClick(({ lat, lng }) => {
   const antipode = getAntipode(lat, lng);
 
+  // Update React state
   setLocation({
     original: { lat, lng },
     antipode
   });
 
-  // Update globe points
+  // POINTS (blue = you, red = antipode)
   globe
-  .pointsData([
-    { lat, lng, color: 'blue', size: 1.5 },
-    { lat: antipode.lat, lng: antipode.lng, color: 'red', size: 1.5 }
+    .pointsData([
+      { lat, lng, color: 'blue', size: 1.5 },
+      { lat: antipode.lat, lng: antipode.lng, color: 'red', size: 1.5 }
+    ])
+    .pointAltitude(0.1)
+    .pointColor('color');
+
+  // ARC (connect the two points)
+  globe
+  .arcsData([
+    {
+      startLat: lat,
+      startLng: lng,
+      endLat: antipode.lat,
+      endLng: antipode.lng
+    }
   ])
-  .pointAltitude(0.1)
-  .pointColor('color');
+  .arcColor(() => ['#00aaff', '#ff4444'])
+  .arcStroke(1.2)
+  .arcAltitude(0.7)
+  .arcDashLength(0.03)
+  .arcDashGap(0.12)
+  .arcDashAnimateTime(1500);
+
+  // CAMERA ANIMATION
+  globe.pointOfView({ lat, lng, altitude: 2 }, 1000);
+
+  setTimeout(() => {
+    globe.pointOfView(
+      { lat: antipode.lat, lng: antipode.lng, altitude: 2 },
+      1500
+    );
+  }, 1200);
 });
+
+
   }, []);
 
   return (
