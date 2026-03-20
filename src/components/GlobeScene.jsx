@@ -12,7 +12,7 @@ export default function GlobeScene() {
       .backgroundColor('#000');
 
     globe.controls().autoRotate = true;
-    globe.controls().autoRotateSpeed = 0.5;
+    globe.controls().autoRotateSpeed = 0.3;
   }, []);
 
   return (
