@@ -1,3 +1,6 @@
-export default function App() {
-  return <h1>Earth Sandwich 🌍🥪</h1>;
+
+
+import GlobeScene from "./components/GlobeScene";
+export default function App(){
+  return <GlobeScene />;
 }
